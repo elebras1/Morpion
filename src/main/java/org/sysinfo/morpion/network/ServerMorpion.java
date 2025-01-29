@@ -1,40 +1,61 @@
 package org.sysinfo.morpion.network;
 
-import java.io.BufferedReader;
+import org.controlsfx.control.spreadsheet.Grid;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ServerMorpion {
     private static final int port = 2048;
-    private static List<BufferedReader> clientsIn = new ArrayList<>();
-    private static List<PrintWriter> clientsOut = new ArrayList<>();
+    private final Grid grid = new Grid();
 
-    public static void main(String[] args) {
-        try {
-            ServerSocket serverSocket = new ServerSocket(port);
-            System.out.println("Serveur start");
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
+        ServerSocket serverSocket = new ServerSocket(port);
+        System.out.println("Server started, waiting for players...");
 
-            for (int i = 0; i < 2; i++) {
-                Socket clientSocket = serverSocket.accept();
-                System.out.println("Player " + (i + 1) + " connected.");
+        Socket player1Socket = serverSocket.accept();
+        System.out.println("Player 1 connected.");
+        Socket player2Socket = serverSocket.accept();
+        System.out.println("Player 2 connected.");
 
-                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-                clientsIn.add(in);
-                clientsOut.add(out);
+        ObjectInputStream player1In = new ObjectInputStream(player1Socket.getInputStream());
+        ObjectOutputStream player1Out = new ObjectOutputStream(player1Socket.getOutputStream());
 
-                out.println("Player " + (i + 1));
-                out.println("Waiting other player...");
+        ObjectInputStream player2In = new ObjectInputStream(player2Socket.getInputStream());
+        ObjectOutputStream player2Out = new ObjectOutputStream(player2Socket.getOutputStream());
+
+        player1Out.writeObject(this.grid.getGrid());
+        player1Out.flush();
+
+        player2Out.writeObject(this.grid.getGrid());
+        player2Out.flush();
+
+        boolean inGame = true;
+        while (inGame) {
+            System.out.println("Waiting for Player 1's move...");
+            byte[][] gridPlayer1 = (Grid) player1In.readObject();
+            this.grid.set(gridPlayer1);
+            player2Out.writeObject(this.grid.getGrid());
+            player2Out.flush();
+            if(this.grid.isWin()) {
+                break;
             }
 
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Waiting for Player 2's move...");
+            byte[][] gridPlayer2 = (Grid) player2In.readObject();
+            this.grid.set(gridPlayer2);
+            player1Out.writeObject(this.grid.getGrid());
+            player1Out.flush();
+            if(this.grid.isWin()) {
+                break;
+            }
         }
+
+        player1Socket.close();
+        player2Socket.close();
+        serverSocket.close();
     }
 }
