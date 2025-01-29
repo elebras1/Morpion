@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ServerMorpion {
     private static final int port = 2048;
-    private static List<BufferedReader> clientsIn = new BufferedReader<>();
+    private static List<BufferedReader> clientsIn = new ArrayList<>();
     private static List<PrintWriter> clientsOut = new ArrayList<>();
 
     public static void main(String[] args) {
@@ -20,7 +20,7 @@ public class ServerMorpion {
             System.out.println("Serveur start");
 
             for (int i = 0; i < 2; i++) {
-                Socket clientSocket = serverSocket.accept();  // Accept client connection
+                Socket clientSocket = serverSocket.accept();
                 System.out.println("Player " + (i + 1) + " connected.");
 
                 BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
