@@ -1,12 +1,14 @@
 package org.sysinfo.morpion.game;
 
 public class Player {
+    private int id;
     private String name;
     private String pawn;
     private int nbWin;
     private boolean canPlay;
 
-    public Player (String name, String pawn){
+    public Player (int id, String name, String pawn){
+        this.id = id;
         this.name = name;
         this.pawn = pawn;
         this.nbWin = 0;
@@ -14,10 +16,6 @@ public class Player {
 
     public String getPawn() {
         return pawn;
-    }
-
-    public void setPion(String pion) {
-        this.pawn = pion;
     }
 
     public int getNbWin() {
