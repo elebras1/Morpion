@@ -23,14 +23,9 @@ public class MorpionController {
         };
     }
 
-    private void resetBoard() {
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                board[row][col] = 0;
-                buttons[row][col].setText("");
-            }
-        }
-        xTurn = true;
+    @FXML
+    public void handleButtonClick(javafx.event.ActionEvent event) {
+
     }
 
     private void showAlert(String message) {
