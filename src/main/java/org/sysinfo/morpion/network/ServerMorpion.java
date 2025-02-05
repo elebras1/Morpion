@@ -1,6 +1,6 @@
 package org.sysinfo.morpion.network;
 
-import org.controlsfx.control.spreadsheet.Grid;
+import org.sysinfo.morpion.game.Grid;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,7 +10,7 @@ import java.net.Socket;
 
 public class ServerMorpion {
     private static final int port = 2048;
-    private final Grid grid = new Grid();
+    private static final Grid grid = new Grid();
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         ServerSocket serverSocket = new ServerSocket(port);
@@ -27,30 +27,30 @@ public class ServerMorpion {
         ObjectInputStream player2In = new ObjectInputStream(player2Socket.getInputStream());
         ObjectOutputStream player2Out = new ObjectOutputStream(player2Socket.getOutputStream());
 
-        player1Out.writeObject(this.grid.getGrid());
+        player1Out.writeObject(grid.getGrid());
         player1Out.flush();
 
-        player2Out.writeObject(this.grid.getGrid());
+        player2Out.writeObject(grid.getGrid());
         player2Out.flush();
 
         boolean inGame = true;
         while (inGame) {
             System.out.println("Waiting for Player 1's move...");
-            byte[][] gridPlayer1 = (Grid) player1In.readObject();
-            this.grid.set(gridPlayer1);
-            player2Out.writeObject(this.grid.getGrid());
+            byte[][] gridPlayer1 = (byte[][]) player1In.readObject();
+            grid.setGrid(gridPlayer1);
+            player2Out.writeObject(grid.getGrid());
             player2Out.flush();
-            if(this.grid.isWin()) {
-                break;
+            if(grid.isWin()) {
+                inGame = false;
             }
 
             System.out.println("Waiting for Player 2's move...");
-            byte[][] gridPlayer2 = (Grid) player2In.readObject();
-            this.grid.set(gridPlayer2);
-            player1Out.writeObject(this.grid.getGrid());
+            byte[][] gridPlayer2 = (byte[][]) player2In.readObject();
+            grid.setGrid(gridPlayer2);
+            player1Out.writeObject(grid.getGrid());
             player1Out.flush();
-            if(this.grid.isWin()) {
-                break;
+            if(grid.isWin()) {
+                inGame = false;
             }
         }
 
