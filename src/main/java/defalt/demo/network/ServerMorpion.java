@@ -20,6 +20,9 @@ public class ServerMorpion {
         System.out.println("Player 1 connected.");
         Socket player2Socket = serverSocket.accept();
         System.out.println("Player 2 connected.");
+        System.out.println("Connexion avec le client 1 établie : " + player1Socket.getInetAddress());
+        System.out.println("Connexion avec le client 2 établie : " + player2Socket.getInetAddress());
+
 
         ObjectInputStream player1In = new ObjectInputStream(player1Socket.getInputStream());
         ObjectOutputStream player1Out = new ObjectOutputStream(player1Socket.getOutputStream());
@@ -35,6 +38,12 @@ public class ServerMorpion {
         player2Out.writeObject(grid.getGrid());
         player2Out.flush();
         player2Out.writeObject("OK"); // Confirmation d'envoi
+        player2Out.flush();
+
+        player1Out.writeObject(1); // Joueur 1 reçoit "1" (X)
+        player1Out.flush();
+
+        player2Out.writeObject(2); // Joueur 2 reçoit "2" (O)
         player2Out.flush();
 
 

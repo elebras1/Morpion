@@ -12,6 +12,7 @@ public class ClientMorpion {
     private byte[][] grid;
     private Button[][] buttons;
     private boolean isPlayerTurn;
+    private int playerId;
 
     public ClientMorpion(String host, int port, Button[][] buttons) {
         this.buttons = buttons;
@@ -25,7 +26,7 @@ public class ClientMorpion {
             if (!"OK".equals(confirmation)) {
                 throw new IOException("Erreur lors de l'initialisation du jeu");
             }
-
+            playerId = (int) in.readObject();
             updateUI();
             isPlayerTurn = true; // Premier joueur commence
 
@@ -38,7 +39,7 @@ public class ClientMorpion {
     public void playTurn(int row, int col) {
         if (!isPlayerTurn || grid[row][col] != 0) return;
 
-        grid[row][col] = (byte) (isPlayerTurn ? 1 : 2);
+        grid[row][col] = (byte) playerId;
         updateUI();
         sendMove();
         isPlayerTurn = false;
