@@ -3,6 +3,7 @@ module defalt.demo {
     requires javafx.fxml;
 
     requires org.controlsfx.controls;
+    requires java.desktop;
 
     opens defalt.demo to javafx.fxml;
     exports defalt.demo;

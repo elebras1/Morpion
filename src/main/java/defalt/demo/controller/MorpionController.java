@@ -1,5 +1,6 @@
 package defalt.demo.controller;
 
+import defalt.demo.network.ClientMorpion;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -11,9 +12,8 @@ public class MorpionController {
     @FXML private GridPane gridPane;
     @FXML private Button b00, b01, b02, b10, b11, b12, b20, b21, b22;
 
-    private byte[][] board = new byte[3][3];
-    private boolean xTurn = true;
     private Button[][] buttons;
+    private ClientMorpion client;
 
     @FXML
     public void initialize() {
@@ -22,11 +22,20 @@ public class MorpionController {
                 {b10, b11, b12},
                 {b20, b21, b22}
         };
+        client = new ClientMorpion("localhost", 2048, buttons);
     }
 
     @FXML
     public void handleButtonClick(ActionEvent event) {
-
+        Button clickedButton = (Button) event.getSource();
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (buttons[i][j] == clickedButton) {
+                    client.playTurn(i, j);
+                    return;
+                }
+            }
+        }
     }
 
     private void showAlert(String message) {
@@ -37,3 +46,4 @@ public class MorpionController {
         alert.showAndWait();
     }
 }
+

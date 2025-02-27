@@ -29,9 +29,14 @@ public class ServerMorpion {
 
         player1Out.writeObject(grid.getGrid());
         player1Out.flush();
+        player1Out.writeObject("OK"); // Confirmation d'envoi
+        player1Out.flush();
 
         player2Out.writeObject(grid.getGrid());
         player2Out.flush();
+        player2Out.writeObject("OK"); // Confirmation d'envoi
+        player2Out.flush();
+
 
         boolean inGame = true;
         while (inGame) {
