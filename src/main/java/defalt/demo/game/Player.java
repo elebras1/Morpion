@@ -1,4 +1,4 @@
-package org.sysinfo.morpion.game;
+package defalt.demo.game;
 
 public class Player {
     private int id;

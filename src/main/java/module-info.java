@@ -1,13 +1,11 @@
-module org.sysinfo.morpion {
-  requires javafx.controls;
-  requires javafx.fxml;
+module defalt.demo {
+    requires javafx.controls;
+    requires javafx.fxml;
 
-  requires org.controlsfx.controls;
-  requires com.dlsc.formsfx;
-  requires com.almasb.fxgl.all;
+    requires org.controlsfx.controls;
 
-  opens org.sysinfo.morpion to javafx.fxml;
-  exports org.sysinfo.morpion;
-    exports org.sysinfo.morpion.controller;
-    opens org.sysinfo.morpion.controller to javafx.fxml;
+    opens defalt.demo to javafx.fxml;
+    exports defalt.demo;
+    opens defalt.demo.controller to javafx.fxml;
+    exports defalt.demo.controller;
 }

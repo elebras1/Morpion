@@ -1,4 +1,4 @@
-package org.sysinfo.morpion.game;
+package defalt.demo.game;
 
 public class Grid {
     private byte [][] grid = new byte[3][3];

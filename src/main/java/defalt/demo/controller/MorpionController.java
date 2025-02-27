@@ -1,5 +1,6 @@
-package org.sysinfo.morpion.controller;
+package defalt.demo.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
@@ -24,7 +25,7 @@ public class MorpionController {
     }
 
     @FXML
-    public void handleButtonClick(javafx.event.ActionEvent event) {
+    public void handleButtonClick(ActionEvent event) {
 
     }
 

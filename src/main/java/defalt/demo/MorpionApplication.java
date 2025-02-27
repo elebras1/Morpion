@@ -1,4 +1,4 @@
-package org.sysinfo.morpion;
+package defalt.demo;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +12,7 @@ public class MorpionApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MorpionApplication.class.getResource("Morpion_ihm.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 320);
+        //fxmlLoader.setController();
         stage.setTitle("Morpion");
         stage.setScene(scene);
         stage.show();
